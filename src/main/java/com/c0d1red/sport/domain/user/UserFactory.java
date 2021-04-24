@@ -1,6 +1,7 @@
 package com.c0d1red.sport.domain.user;
 
 import com.c0d1red.sport.application.impl.UserCreateRequest;
+import com.c0d1red.sport.domain.user.User.Role;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Component;
@@ -13,12 +14,12 @@ public class UserFactory {
     public User createFrom(UserCreateRequest userCreateRequest) {
         Username username = Username.from(userCreateRequest.getRawUsername());
         Password password = createEncryptedPasswordFrom(userCreateRequest.getRawPassword());
-        return new User(username, password, User.Role.VISITOR);
+        Role role = userCreateRequest.getRole();
+        return new User(username, password, role);
     }
 
     private Password createEncryptedPasswordFrom(String rawPassword) {
         String encodedPassword = bCryptPasswordEncoder.encode(rawPassword);
         return Password.from(encodedPassword);
     }
-
 }

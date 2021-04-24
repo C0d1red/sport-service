@@ -2,8 +2,8 @@ package com.c0d1red.sport.application.impl;
 
 import com.c0d1red.sport.adapter.jpa.UserJpaRepository;
 import com.c0d1red.sport.application.api.UserNotFoundException;
-import com.c0d1red.sport.application.api.UserRepository;
 import com.c0d1red.sport.domain.user.User;
+import com.c0d1red.sport.domain.user.UserRepository;
 import com.c0d1red.sport.domain.user.Username;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Repository;

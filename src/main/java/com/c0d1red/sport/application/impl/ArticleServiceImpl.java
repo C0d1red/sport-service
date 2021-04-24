@@ -10,6 +10,8 @@ import com.c0d1red.sport.domain.user.User;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
+import java.util.Set;
+
 @Service
 @RequiredArgsConstructor
 public class ArticleServiceImpl implements ArticleService {
@@ -39,5 +41,19 @@ public class ArticleServiceImpl implements ArticleService {
     @Override
     public void deleteArticleById(long articleId) {
         articleRepository.deleteArticleById(articleId);
+    }
+
+    @Override
+    public Article likeArticleById(long articleId) {
+        User liker = securityService.getAuthenticatedUser();
+        Article article = articleRepository.getArticleById(articleId);
+        article.getLikers().add(liker);
+        return articleRepository.save(article);
+    }
+
+    @Override
+    public Set<Article> getAllForUser() {
+        User authenticatedUser = securityService.getAuthenticatedUser();
+        return authenticatedUser.getLikedArticles();
     }
 }

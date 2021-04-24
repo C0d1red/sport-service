@@ -16,7 +16,7 @@ import org.springframework.web.cors.CorsConfigurationSource;
 import org.springframework.web.cors.UrlBasedCorsConfigurationSource;
 
 import static com.c0d1red.sport.domain.user.User.Role.ADMIN;
-import static com.c0d1red.sport.domain.user.User.Role.VISITOR;
+import static com.c0d1red.sport.domain.user.User.Role.COMMON;
 import static org.springframework.http.HttpMethod.*;
 
 @Configuration
@@ -44,10 +44,10 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                 .antMatchers(POST, "/user").permitAll()
 
                 /* =============================================ARTICLE============================================= */
-                .antMatchers(POST, "/article").hasAnyRole(ADMIN.name(), VISITOR.name())
-                .antMatchers(GET, "/article/**").hasAnyRole(ADMIN.name(), VISITOR.name())
-                .antMatchers(PUT, "/article/**").hasAnyRole(ADMIN.name(), VISITOR.name())
-                .antMatchers(DELETE, "/article/**").hasAnyRole(ADMIN.name(), VISITOR.name())
+                .antMatchers(POST, "/article").hasAnyRole(ADMIN.name(), COMMON.name())
+                .antMatchers(GET, "/article/**").hasAnyRole(ADMIN.name(), COMMON.name())
+                .antMatchers(PUT, "/article/**").hasAnyRole(ADMIN.name(), COMMON.name())
+                .antMatchers(DELETE, "/article/**").hasAnyRole(ADMIN.name(), COMMON.name())
 
                 /* =============================================SWAGGER============================================= */
                 .antMatchers(

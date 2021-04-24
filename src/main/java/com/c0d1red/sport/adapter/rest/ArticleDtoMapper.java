@@ -35,7 +35,10 @@ public class ArticleDtoMapper {
 
             List<String> rawKeyWords = source.getKeywords().stream()
                     .map(Keyword::getWord).collect(Collectors.toList());
+            int likersNum = source.getLikers().size();
+
             destination.setKeyWords(rawKeyWords);
+            destination.setLikersNum(likersNum);
             return destination;
         };
     }

@@ -8,6 +8,9 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.Set;
+import java.util.stream.Collectors;
+
 @RestController
 @RequestMapping("/article")
 @RequiredArgsConstructor
@@ -17,7 +20,7 @@ public class ArticleController {
 
     @PostMapping
     @ResponseStatus(HttpStatus.CREATED)
-    private ArticleDto createNew(ArticleDto articleDto) {
+    private ArticleDto createNew(@RequestBody ArticleDto articleDto) {
         ArticleCreateRequest articleCreateRequest = ArticleRequestFactory.createCreateRequestFrom(articleDto);
         Article createdArticle = articleService.createNewArticle(articleCreateRequest);
         return articleMapper.mapDtoFrom(createdArticle);
@@ -42,5 +45,21 @@ public class ArticleController {
     @ResponseStatus(HttpStatus.OK)
     private void delete(@PathVariable long id) {
         articleService.deleteArticleById(id);
+    }
+
+    @PutMapping("/like/{id}")
+    @ResponseStatus(HttpStatus.OK)
+    private ArticleDto likeArticle(@PathVariable long id) {
+        Article likedArticle = articleService.likeArticleById(id);
+        return articleMapper.mapDtoFrom(likedArticle);
+    }
+
+    @GetMapping("/me")
+    @ResponseStatus(HttpStatus.OK)
+    private CollectionDto<ArticleDto> getAllForUser() {
+        Set<Article> likedArticle = articleService.getAllForUser();
+        return new CollectionDto<>(likedArticle.stream()
+                .map(articleMapper::mapDtoFrom)
+                .collect(Collectors.toSet()));
     }
 }

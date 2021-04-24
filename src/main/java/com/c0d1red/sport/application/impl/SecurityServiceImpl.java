@@ -1,8 +1,8 @@
 package com.c0d1red.sport.application.impl;
 
 import com.c0d1red.sport.application.api.SecurityService;
-import com.c0d1red.sport.application.api.UserRepository;
 import com.c0d1red.sport.domain.user.User;
+import com.c0d1red.sport.domain.user.UserRepository;
 import com.c0d1red.sport.infrastrcture.jwt.JwtUser;
 import com.c0d1red.sport.infrastrcture.jwt.JwtUtil;
 import lombok.RequiredArgsConstructor;

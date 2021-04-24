@@ -10,7 +10,10 @@ import lombok.NoArgsConstructor;
 
 import javax.persistence.*;
 import java.time.LocalDate;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Objects;
+import java.util.Set;
 
 @Entity
 @Table(name = "article")
@@ -29,4 +32,36 @@ public class Article extends IdentifiedDomainObject implements AggregateRoot {
     @JoinColumn(name = "AUTHOR_ID")
     private User author;
     private LocalDate createdDate;
+    @ManyToMany
+    @JoinTable(name = "liker_article",
+            joinColumns = @JoinColumn(name = "article_id"),
+            inverseJoinColumns = @JoinColumn(name = "liker_id"))
+    private Set<User> likers;
+
+    public Article(ArticleName name, ArticleText text, List<Keyword> keywords, User author, LocalDate createdDate) {
+        this.name = name;
+        this.text = text;
+        this.keywords = keywords;
+        this.author = author;
+        this.createdDate = createdDate;
+        likers = new HashSet<>();
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        if (!super.equals(o)) return false;
+        Article article = (Article) o;
+        return Objects.equals(name, article.name) &&
+                Objects.equals(text, article.text) &&
+                Objects.equals(keywords, article.keywords) &&
+                Objects.equals(author, article.author) &&
+                Objects.equals(createdDate, article.createdDate);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(super.hashCode(), name, text, keywords, author, createdDate);
+    }
 }

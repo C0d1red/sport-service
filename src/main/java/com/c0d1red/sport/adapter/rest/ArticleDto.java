@@ -11,10 +11,11 @@ import java.util.List;
 @NoArgsConstructor
 @AllArgsConstructor
 public class ArticleDto {
-    private long id;
+    private Long id;
     private String name;
     private String text;
     private List<String> keyWords;
     private String authorUsername;
     private LocalDate createdDate;
+    private Integer likersNum;
 }
