@@ -75,11 +75,20 @@ public class ArticleController {
                 .collect(Collectors.toSet()));
     }
 
-    @GetMapping("/me")
+    @GetMapping("/me/liked")
     @ResponseStatus(HttpStatus.OK)
     private CollectionDto<ArticleDto> getAllLikedForUser() {
         Set<Article> likedArticle = articleService.getLikedArticlesForUser();
         return new CollectionDto<>(likedArticle.stream()
+                .map(articleMapper::mapDtoFrom)
+                .collect(Collectors.toSet()));
+    }
+
+    @GetMapping("/me/recommended")
+    @ResponseStatus(HttpStatus.OK)
+    private CollectionDto<ArticleDto> getAllRecommendedForUser() {
+        List<Article> recommendedArticles = articleService.getRecommendedArticlesForUser();
+        return new CollectionDto<>(recommendedArticles.stream()
                 .map(articleMapper::mapDtoFrom)
                 .collect(Collectors.toSet()));
     }

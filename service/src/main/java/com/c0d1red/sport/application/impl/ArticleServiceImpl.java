@@ -88,8 +88,12 @@ public class ArticleServiceImpl implements ArticleService {
     @Override
     public List<Article> getRecommendedArticlesForUser() {
         List<Article> allArticles = getAllArticles();
-        List<Article> likedArticles = new ArrayList<>(getLikedArticlesForUser());
-        return recommendationSystemAdapter.createRecommendation(allArticles, likedArticles);
+        try {
+            List<Article> likedArticles = new ArrayList<>(getLikedArticlesForUser());
+            return recommendationSystemAdapter.createRecommendation(allArticles, likedArticles);
+        } catch (AnonymousUserException e) {
+            return allArticles;
+        }
     }
 
     @Override
